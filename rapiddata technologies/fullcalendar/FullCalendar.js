@@ -18521,7 +18521,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
     }
 
     function FullCalendar(props) {
-        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection = true } = props;
+        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect,selectStartAttr, selectEndAttr, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection = true } = props;
         // Extract values from EditableValue attributes
         const languageValue = React.useMemo(() => {
             if (!language || language.status !== "available" /* ValueStatus.Available */) {
@@ -18713,13 +18713,17 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
             }, 0);
         }, [onEventClick, selectedEvent]);
         // Handle date selection - passes selected date range
-        const handleDateSelect = React.useCallback((_selectInfo) => {
+        const handleDateSelect = React.useCallback((selectInfo) => {
+            if (selectStartAttr?.status === "available" && !selectStartAttr.readOnly) {
+                selectStartAttr.setValue(selectInfo.start);
+            }
+            if (selectEndAttr?.status === "available" && !selectEndAttr.readOnly) {
+                selectEndAttr.setValue(selectInfo.end);
+            }
             if (onDateSelect && onDateSelect.canExecute) {
-                // The microflow should receive a helper entity with start and end dates
-                // Mendix will handle the context passing automatically
                 onDateSelect.execute();
             }
-        }, [onDateSelect]);
+        }, [selectStartAttr, selectEndAttr, onDateSelect]);
         // Build dimension styles
         const dimensionStyle = React.useMemo(() => {
             const dims = { ...style };
@@ -18764,7 +18768,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
             return "auto";
         }, [heightMode, customHeight]);
         return (React.createElement("div", { className: `widget-fullcalendar-container ${className || ""}`, style: dimensionStyle, tabIndex: props.tabIndex },
-            React.createElement(FullCalendarWrapper, { events: mappedEvents, language: languageValue, initialView: computedInitialView, initialDate: undefined, validRange: undefined, headerToolbar: headerToolbar, buttonText: buttonText, firstDay: firstDay, eventDisplay: eventDisplayStyle, selectable: allowDateSelection, editable: false, height: calendarHeight, onEventClick: handleEventClick, onSelect: handleDateSelect, onEventDrop: undefined, onEventResize: undefined })));
+            React.createElement(FullCalendarWrapper, { events: mappedEvents, language: languageValue, initialView: computedInitialView, initialDate: undefined, validRange: undefined, headerToolbar: headerToolbar, buttonText: buttonText, firstDay: firstDay, eventDisplay: eventDisplayStyle, selectable: allowDateSelection, editable: true, height: calendarHeight, onEventClick: handleEventClick, onSelect: handleDateSelect, onEventDrop: undefined, onEventResize: undefined })));
     }
 
     exports.FullCalendar = FullCalendar;

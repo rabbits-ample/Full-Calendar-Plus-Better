@@ -165,6 +165,20 @@
                     <caption>On Date Selected</caption>
                     <description>Microflow to execute when date(s) are selected. A helper entity with start and end dates will be passed to the microflow.</description>
                 </property>
+                <property key="selectStartAttr" type="attribute" required="false">
+                    <caption>Selected start attribute</caption>
+                    <description>Populated with the selected range's start before the microflow runs.</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
+                <property key="selectEndAttr" type="attribute" required="false">
+                    <caption>Selected end attribute</caption>
+                    <description>Populated with the selected range's end before the microflow runs.</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Event Options">
                 <property key="allowDateSelection" type="boolean" defaultValue="true">
