@@ -181,9 +181,12 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Event Options">
-                <property key="allowDateSelection" type="boolean" defaultValue="true">
+                <property key="allowDateSelection" type="attribute">
                     <caption>Allow Date selection</caption>
                     <description>Allow user to select date(s) on the calendar</description>
+                    <attributeTypes>
+                        <attributeType name="Boolean"/>
+                    </attributeTypes>
                 </property>
             </propertyGroup>
         </propertyGroup>

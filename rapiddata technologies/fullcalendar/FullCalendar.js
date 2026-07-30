@@ -18521,7 +18521,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
     }
 
     function FullCalendar(props) {
-        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect,selectStartAttr, selectEndAttr, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection = true } = props;
+        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect,selectStartAttr, selectEndAttr, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection} = props;
         // Extract values from EditableValue attributes
         const languageValue = React.useMemo(() => {
             if (!language || language.status !== "available" /* ValueStatus.Available */) {
@@ -18768,8 +18768,9 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
             return "auto";
         }, [heightMode, customHeight]);
         return (React.createElement("div", { className: `widget-fullcalendar-container ${className || ""}`, style: dimensionStyle, tabIndex: props.tabIndex },
-            React.createElement(FullCalendarWrapper, { events: mappedEvents, language: languageValue, initialView: computedInitialView, initialDate: undefined, validRange: undefined, headerToolbar: headerToolbar, buttonText: buttonText, firstDay: firstDay, eventDisplay: eventDisplayStyle, selectable: allowDateSelection, editable: true, height: calendarHeight, onEventClick: handleEventClick, onSelect: handleDateSelect, onEventDrop: undefined, onEventResize: undefined })));
+            React.createElement(FullCalendarWrapper, { events: mappedEvents, language: languageValue, initialView: computedInitialView, initialDate: undefined, validRange: undefined, headerToolbar: headerToolbar, buttonText: buttonText, firstDay: firstDay, eventDisplay: eventDisplayStyle, selectable: allowDateSelection.value, editable: false, height: calendarHeight, onEventClick: handleEventClick, onSelect: handleDateSelect, onEventDrop: undefined, onEventResize: undefined })));
     }
+    // change editable to true to allow for drag and drops. Unfortunately, these drag and drop probably have a function to pass on the data, but we can't see it in this compiled version.
 
     exports.FullCalendar = FullCalendar;
 
