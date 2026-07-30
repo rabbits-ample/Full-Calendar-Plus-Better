@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="rapiddata technologies.fullcalendar.FullCalendar" pluginWidget="true" needsEntityContext="false" offlineCapable="true"
+        supportedPlatform="Web"
+        xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>FullCalendarPlus</name>
+    <description>Display events in a FullCalendar-based interactive calendar with multiple views, locale support, RTL, and drag/resize capabilities.</description>
+    <icon>
+        iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAABp1BMVEUAAABV//9mzP9LtP9Ms/9Jtv9NsvdJsfpLtPpJsfdJsfhJsvhJsvdKsvdJsPhKsPhJsfdJsPhJsfdIsfhJsfdIsPdJsfhJsfhJsPhJsPhIsfhIsPdJsPdKsPdKsfdNsvdOsvdPs/dQs/dRtPdStPdTtPdUtfdWtvdXtvdauPdcuPdeufdeufhguvhiu/hju/hkvPhmvfhnvfhpvvhrv/huwPhvwfhxwfhywvhzwvh4xfl5xfl6xfl8xvl9xvl9x/mByPmCyfmFyvmGyvmJzPmKzPmLzfmNzvqPzvqQz/qT0PqU0PqU0fqX0vqY0vqa0/qe1fqg1vqj1/uk1/un2fup2vut2/uv3Puw3Puw3fuz3vu13/u23/u34Pu44Pu64fu64fy84vy94vy+4/y/4/zD5fzE5fzG5vzH5vzI5/zK6PzL6PzR6/zT7P3U7P3V7f3W7f3Y7v3Z7v3c8P3e8f3f8f3g8f3i8v3l8/3l9P3n9P3r9v7t9/7u9/7v+P7w+P7x+f7y+f70+v71+v74/P75/P76/f77/f78/f78/v79/v7+/v7////6dMsRAAAAG3RSTlMAAwURGxwhMTNic3SEh4iVp7XBzejt7vH5/f6PsMNWAAABsklEQVR4AWIYfGAUjIJRMAqYuYREJKWJAqLCPGwY+jnFpEkBEryMqPr5pEkFgkwo9kuTDviR/S9GhgFSHAgDuKXJAQIIA4TIMkAcEY4i0mQBVrgBkuQZwA43QJo8wIFhQEhEOIBQOutHJozDOP5Crp4e1RhkJ0tKGJFd6oNEdtmJyEIzpaZl5nrRZgaHM/2Pf5/vwXXfyagXgG93bwSAlEolowLMm9w83gibhXH2gKKVdD67gTnWjwCk+VVjMQS4suSnnjMLRVFc9sAHvAX2A9fySaXNBMbEZVUWscaHIMRuqwBgD8hDEbnsRmfjUKJkAQZGCTlO/xWBwIADQLIZBlY441MvfoF1xlFS/4fy+bzXKh4dgNJE7L3eh3tmtuWa+AMcMIY3dgUvZQpGEYmMw2kD7HC+R29UqyoXLaBd0QZxzgXgikLLDSqJTKU5HOcS0MsbA9jPqtwCRvXm2eorBbNIJBw3KJ9O4Yl+AAXdnyaLt7PWN3jRWLvzmAVp94zO5+n41/onfo/UpExxZqI0O7NQr0DhIq9Io7hQpbRYp7hiobRqo6ByFcNWuY6CUTAKRgEAo8X0lBD3V30AAAAASUVORK5CYII=
+    </icon>
+    <properties>
+        <propertyGroup caption="General">
+            <propertyGroup caption="Calendar Events">
+                <property key="eventsDataSource" type="datasource" isList="true" required="true">
+                    <caption>Events datasource</caption>
+                    <description>Calendar events datasource</description>
+                </property>
+                <property key="titleAttribute" type="attribute" required="false" dataSource="eventsDataSource">
+                    <caption>Event Title</caption>
+                    <description>Attribute of the events datasource entity: event title (String)</description>
+                    <attributeTypes>
+                        <attributeType name="String"/>
+                    </attributeTypes>
+                </property>
+                <property key="allDayAttribute" type="attribute" required="false" dataSource="eventsDataSource">
+                    <caption>All day</caption>
+                    <description>Attribute of the events datasource entity: Boolean for all-day event</description>
+                    <attributeTypes>
+                        <attributeType name="Boolean"/>
+                    </attributeTypes>
+                </property>
+                <property key="startDateAttribute" type="attribute" required="true" dataSource="eventsDataSource">
+                    <caption>Event Start Date</caption>
+                    <description>Attribute of the events datasource entity: event start datetime</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
+                <property key="endDateAttribute" type="attribute" required="true" dataSource="eventsDataSource">
+                    <caption>Event End Date</caption>
+                    <description>Attribute of the events datasource entity: event end datetime</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
+                <property key="colorAttribute" type="attribute" required="false" dataSource="eventsDataSource">
+                    <caption>Color</caption>
+                    <description>Attribute of the events datasource entity: event color (e.g. "red", "#FFF000", "rgb(250,10,20)")</description>
+                    <attributeTypes>
+                        <attributeType name="String"/>
+                    </attributeTypes>
+                </property>
+                <property key="textColorAttribute" type="attribute" required="false" dataSource="eventsDataSource">
+                    <caption>Text Color</caption>
+                    <description>Attribute of the events datasource entity: event color (e.g. "red", "#FFF000", "rgb(250,10,20)")</description>
+                    <attributeTypes>
+                        <attributeType name="String"/>
+                    </attributeTypes>
+                </property>
+                <property key="eventDisplayStyle" type="enumeration" defaultValue="block">
+                    <caption>Event display style</caption>
+                    <description>Controls which preset rendering style events use. Only Simple and Block are supported.</description>
+                    <enumerationValues>
+                        <enumerationValue key="auto">Simple</enumerationValue>
+                        <enumerationValue key="block">Block</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Calendar View">
+                <property key="language" type="expression" required="true">
+                    <caption>Language</caption>
+                    <description>Language expression for FullCalendar locale(e.g. 'en', 'ta', 'fr', 'ar')
+                    </description>
+                    <returnType type="String" />
+                </property>
+                <property key="toolbarMode" type="enumeration" defaultValue="standard">
+                    <caption>Toolbar</caption>
+                    <description>Default: shows Previous, Next, Today, Title, Month, Week, Day, Year, List. Custom: add only the buttons you need.</description>
+                    <enumerationValues>
+                        <enumerationValue key="standard">Default</enumerationValue>
+                        <enumerationValue key="custom">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="customToolbar" type="object" isList="true" required="false">
+                    <caption>Custom toolbar</caption>
+                    <description>When Toolbar is Custom, add items here (e.g. Previous, Next, Today, Title, Month, Week, Day, Year, List).</description>
+                    <properties>
+                        <property key="button" type="enumeration" defaultValue="dayGridMonth">
+                            <caption>Button</caption>
+                            <category>Toolbar item</category>
+                            <description>Type of toolbar button</description>
+                            <enumerationValues>
+                                <enumerationValue key="prev">Previous</enumerationValue>
+                                <enumerationValue key="next">Next</enumerationValue>
+                                <enumerationValue key="today">Today</enumerationValue>
+                                <enumerationValue key="title">Title</enumerationValue>
+                                <enumerationValue key="dayGridYear">Year</enumerationValue>
+                                <enumerationValue key="dayGridMonth">Month</enumerationValue>
+                                <enumerationValue key="timeGridWeek">Week</enumerationValue>
+                                <enumerationValue key="timeGridDay">Day</enumerationValue>
+                                <enumerationValue key="listMonth">List</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                        <property key="position" type="enumeration" defaultValue="right">
+                            <caption>Position</caption>
+                            <category>Toolbar item</category>
+                            <description>Position in toolbar</description>
+                            <enumerationValues>
+                                <enumerationValue key="left">Left</enumerationValue>
+                                <enumerationValue key="center">Center</enumerationValue>
+                                <enumerationValue key="right">Right</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                        <property key="caption" type="string" required="false">
+                            <caption>Caption</caption>
+                            <category>Toolbar item</category>
+                            <description>The text for the button</description>
+                        </property>
+                        <property key="setAsInitialView" type="boolean" defaultValue="false">
+                            <caption>Set as initial view?</caption>
+                            <category>Toolbar item</category>
+                            <description>Use this view when the calendar first loads (only for view buttons: Month, Week, Day, Year, List)</description>
+                        </property>
+                    </properties>
+                </property>
+                <property key="initialView" type="enumeration" defaultValue="dayGridMonth">
+                    <caption>Select the initial view</caption>
+                    <description>The first view to be displayed when the calendar loads.</description>
+                    <enumerationValues>
+                        <enumerationValue key="timeGridDay">Day</enumerationValue>
+                        <enumerationValue key="timeGridWeek">Week</enumerationValue>
+                        <enumerationValue key="dayGridMonth">Month</enumerationValue>
+                        <enumerationValue key="dayGridYear">Year</enumerationValue>
+                        <enumerationValue key="listMonth">List</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="weekStartDay" type="expression" required="false">
+                    <caption>Week starts on (1–7)</caption>
+                    <description>Expression that resolves to an Integer (1–7).
+                    1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday,
+                    5=Thursday, 6=Friday, 7=Saturday.
+                    Empty or invalid = Monday.
+                    </description>
+                    <returnType type="Integer" />
+                </property>
+
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Events">
+            <propertyGroup caption="Selection">
+                <property key="selectedEvent" type="selection" required="true" dataSource="eventsDataSource">
+                    <caption>Selected event</caption>
+                    <description>Holds the clicked event object. In 'On Select Event' → Show a page → Page settings, set the page argument (e.g. Calendar) to 'Selection of [this widget]' to pass the clicked event to the edit page.</description>
+                    <selectionTypes>
+                        <selectionType name="Single"/>
+                    </selectionTypes>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Actions">
+                <property key="onEventClick" type="action" required="false">
+                    <caption>On Select Event</caption>
+                    <description>Microflow or Show a page when an event is clicked. Use the 'Selected event' selection above as the page argument for the object.</description>
+                </property>
+                <property key="onDateSelect" type="action" required="false">
+                    <caption>On Date Selected</caption>
+                    <description>Microflow to execute when date(s) are selected. A helper entity with start and end dates will be passed to the microflow.</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Event Options">
+                <property key="allowDateSelection" type="boolean" defaultValue="true">
+                    <caption>Allow Date selection</caption>
+                    <description>Allow user to select date(s) on the calendar</description>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Dimensions">
+            <property key="widthMode" type="enumeration" defaultValue="auto">
+                <caption>Width</caption>
+                <description>Auto or custom</description>
+                <enumerationValues>
+                    <enumerationValue key="auto">Auto</enumerationValue>
+                    <enumerationValue key="custom">Custom</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="customWidth" type="string" required="false">
+                <caption>Custom Width</caption>
+                <description>CSS width (e.g., 100%, 800px)</description>
+            </property>
+            <property key="heightMode" type="enumeration" defaultValue="auto">
+                <caption>Height</caption>
+                <description>Auto, fixed, aspect ratio, or content height</description>
+                <enumerationValues>
+                    <enumerationValue key="auto">Auto</enumerationValue>
+                    <enumerationValue key="fixed">Fixed (px)</enumerationValue>
+                    <enumerationValue key="aspect">Aspect Ratio</enumerationValue>
+                    <enumerationValue key="content">Content Height</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="customHeight" type="string" required="false">
+                <caption>Custom Height</caption>
+                <description>CSS value (e.g., 600px, 80vh)</description>
+            </property>
+            <property key="aspectRatio" type="string" required="false" defaultValue="16/9">
+                <caption>Aspect Ratio</caption>
+                <description>Width/height ratio (e.g., 16/9)</description>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Common">
+            <systemProperty key="Name"/>
+            <systemProperty key="TabIndex"/>
+            <systemProperty key="Visibility"/>
+        </propertyGroup>
+    </properties>
+</widget>
