@@ -179,6 +179,24 @@
                         <attributeType name="DateTime"/>
                     </attributeTypes>
                 </property>
+                <property key="onEventDrop" type="action">
+                    <caption>On drop an event</caption>
+                    <description>Microflow to call when event is dropped</description>
+                </property>
+                <property key="dropStartAttr" type="attribute" required="true">
+                    <caption>Event Start Updated</caption>
+                    <description>Populated with the dropped event's start date</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
+                <property key="dropEndAttr" type="attribute" required="true" >
+                    <caption>Event Start Updated</caption>
+                    <description>Populated with the dropped event's end date</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Event Options">
                 <property key="allowDateSelection" type="attribute">
