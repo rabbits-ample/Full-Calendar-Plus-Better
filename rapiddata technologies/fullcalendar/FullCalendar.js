@@ -18726,41 +18726,25 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
         }, [selectStartAttr, selectEndAttr, onDateSelect]);
 
         const handleEventDrop = React.useCallback((dropInfo) => {
-            // dropInfo.event.start is the new date/time the event was dropped onto
             const mendixObject = dropInfo.event.extendedProps?.mendixObject;
-            if (!mendixObject) {
-                console.log("[handleEventDrop] no mendixObject on dropped event");
-                return;
-            }
-
-            const startEditable = dropStartAttr?.get ? dropStartAttr.get(mendixObject) : dropStartAttr;
-            const endEditable = dropEndAttr?.get ? dropEndAttr.get(mendixObject) : dropEndAttr;
-
-            console.log("dropStartAttr raw:", dropStartAttr);
-            console.log("startEditable:", startEditable);
-            console.log("startEditable status:", startEditable?.status, "| readOnly:", startEditable?.readOnly, "| value:", startEditable?.value);
-
-            console.log("dropEndAttr raw:", dropEndAttr);
-            console.log("endEditable:", endEditable);
-            console.log("endEditable status:", endEditable?.status, "| readOnly:", endEditable?.readOnly, "| value:", endEditable?.value);
-
-
-            if (startEditable?.status === "available" && !startEditable.readOnly) {
-                console.log(`startbefore: ${startEditable}`)
-                startEditable.setValue(dropInfo.event.start);
-                console.log(`startafter: ${startEditable}`)
-            }
-            if (endEditable?.status === "available" && !endEditable.readOnly) {
-                endEditable.setValue(dropInfo.event.end);
-            }
-
-            if (mendixObject && selectedEvent?.setSelection) {
+            console.log(`This is the mendix object => ${mendixObject}`)
+            if (!mendixObject) return;
+            
+            if (mendixObject && selectedEvent && typeof selectedEvent.setSelection === "function") {
                 selectedEvent.setSelection(mendixObject);
             }
-            console.log(`CAN EXECUTE = ${onEventDrop.canExecute}`)
-                if (onEventDrop.canExecute && onEventDrop) {
+            
+            if (dropStartAttr?.status === "available" && !dropStartAttr.readOnly) {
+                dropStartAttr.setValue(dropInfo.event.start);
+            }
+            if (dropEndAttr?.status === "available" && !dropEndAttr.readOnly) {
+                dropEndAttr.setValue(dropInfo.event.end);
+            }
+            // Run action on next tick so selection is committed before microflow
+                setTimeout(() => {
                     onEventDrop.execute();
-                }
+                }, 0);
+            
         }, [dropStartAttr, dropEndAttr, onEventDrop, selectedEvent]);
         // Build dimension styles
         const dimensionStyle = React.useMemo(() => {
