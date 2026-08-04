@@ -18521,7 +18521,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
     }
 
     function FullCalendar(props) {
-        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect,selectStartAttr, selectEndAttr,onEventDrop, dropStartAttr, dropEndAttr, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection} = props;
+        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute,editableAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect,selectStartAttr, selectEndAttr,onEventDrop, dropStartAttr, dropEndAttr, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection} = props;
         // Extract values from EditableValue attributes
         const languageValue = React.useMemo(() => {
             if (!language || language.status !== "available" /* ValueStatus.Available */) {
@@ -18606,6 +18606,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
                 const allDayValue = getAttributeValue(allDayAttribute);
                 const colorValue = getAttributeValue(colorAttribute);
                 const textColorValue = getAttributeValue(textColorAttribute)
+                const editableValue = getAttributeValue(editableAttribute)
                 return {
                     id: item.id || item.guid || `event-${Math.random()}`,
                     title: titleValue || "Event",
@@ -18616,6 +18617,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
                     borderColor: colorValue,
                     textColor: textColorValue,
                     display: eventDisplayStyle,
+                    editable:editableValue,
                     extendedProps: {
                         mendixObject: item,
                         mendixId: item.id,
@@ -18631,6 +18633,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
             allDayAttribute,
             colorAttribute,
             textColorAttribute,
+            editableAttribute,
             eventDisplayStyle
         ]);
         // Build toolbar config

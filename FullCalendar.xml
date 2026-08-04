@@ -52,7 +52,7 @@
                 </property>
                 <property key="textColorAttribute" type="attribute" required="false" dataSource="eventsDataSource">
                     <caption>Text Color</caption>
-                    <description>Attribute of the events datasource entity: event color (e.g. "red", "#FFF000", "rgb(250,10,20)")</description>
+                    <description>Attribute of the events datasource entity: event text color (e.g. "red", "#FFF000", "rgb(250,10,20)")</description>
                     <attributeTypes>
                         <attributeType name="String"/>
                     </attributeTypes>
@@ -64,6 +64,11 @@
                         <enumerationValue key="auto">Simple</enumerationValue>
                         <enumerationValue key="block">Block</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="editableAttribute" type="expression" required="true" dataSource="eventsDataSource">
+                    <caption>Event Editable</caption>
+                    <description>Attribute of the events datasource entity: event editability (draggable,resizable)</description>
+                    <returnType type="Boolean"/>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Calendar View">
