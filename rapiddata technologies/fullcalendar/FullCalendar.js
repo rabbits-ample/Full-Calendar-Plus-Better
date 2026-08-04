@@ -18521,7 +18521,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
     }
 
     function FullCalendar(props) {
-        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute,editableAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect,selectStartAttr, selectEndAttr,onEventDrop, dropStartAttr, dropEndAttr, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection} = props;
+        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute,editableAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect,selectStartAttr, selectEndAttr,onEventDrop,onEventResize, dropStartAttr, dropEndAttr,resizeStartAttr,resizeEndAttr, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection} = props;
         // Extract values from EditableValue attributes
         const languageValue = React.useMemo(() => {
             if (!language || language.status !== "available" /* ValueStatus.Available */) {
@@ -18730,7 +18730,6 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
 
         const handleEventDrop = React.useCallback((dropInfo) => {
             const mendixObject = dropInfo.event.extendedProps?.mendixObject;
-            console.log(`This is the mendix object => ${mendixObject}`)
             if (!mendixObject) return;
             
             if (mendixObject && selectedEvent && typeof selectedEvent.setSelection === "function") {
@@ -18749,6 +18748,26 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
                 }, 0);
             
         }, [dropStartAttr, dropEndAttr, onEventDrop, selectedEvent]);
+        const handleEventResize = React.useCallback((resizeInfo) => {
+            const mendixObject = resizeInfo.event.extendedProps?.mendixObject;
+            if (!mendixObject) return;
+
+            if (mendixObject && selectedEvent && typeof selectedEvent.setSelection === "function") {
+                selectedEvent.setSelection(mendixObject);
+            }
+
+            if (resizeStartAttr?.status === "available" && !resizeStartAttr.readOnly) {
+                resizeStartAttr.setValue(resizeInfo.event.start);
+            }
+            if (resizeEndAttr?.status === "available" && !resizeEndAttr.readOnly) {
+                resizeEndAttr.setValue(resizeInfo.event.end);
+            }
+            // Run action on next tick so selection is committed before microflow
+            setTimeout(() => {
+                onEventResize.execute();
+            }, 0);
+
+        }, [resizeStartAttr, resizeEndAttr, onEventResize, selectedEvent]);
         // Build dimension styles
         const dimensionStyle = React.useMemo(() => {
             const dims = { ...style };
@@ -18793,7 +18812,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
             return "auto";
         }, [heightMode, customHeight]);
         return (React.createElement("div", { className: `widget-fullcalendar-container ${className || ""}`, style: dimensionStyle, tabIndex: props.tabIndex },
-            React.createElement(FullCalendarWrapper, { events: mappedEvents, language: languageValue, initialView: computedInitialView, initialDate: undefined, validRange: undefined, headerToolbar: headerToolbar, buttonText: buttonText, firstDay: firstDay, eventDisplay: eventDisplayStyle, selectable: allowDateSelection.value, editable: true, height: calendarHeight, onEventClick: handleEventClick, onSelect: handleDateSelect, onEventDrop: handleEventDrop, onEventResize: undefined })));
+            React.createElement(FullCalendarWrapper, { events: mappedEvents, language: languageValue, initialView: computedInitialView, initialDate: undefined, validRange: undefined, headerToolbar: headerToolbar, buttonText: buttonText, firstDay: firstDay, eventDisplay: eventDisplayStyle, selectable: allowDateSelection.value, editable: true, height: calendarHeight, onEventClick: handleEventClick, onSelect: handleDateSelect, onEventDrop: handleEventDrop, onEventResize: handleEventResize})));
     }
     // change editable to true to allow for drag and drops. Unfortunately, these drag and drop probably have a function to pass on the data, but we can't see it in this compiled version.
 

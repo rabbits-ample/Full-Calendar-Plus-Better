@@ -185,19 +185,37 @@
                     </attributeTypes>
                 </property>
                 <property key="onEventDrop" type="action">
-                    <caption>On drop an event</caption>
+                    <caption>On Drop Event</caption>
                     <description>Microflow to call when event is dropped</description>
                 </property>
                 <property key="dropStartAttr" type="attribute" required="true">
-                    <caption>Event Start Updated</caption>
+                    <caption>Dropped Event Start Time</caption>
                     <description>Populated with the dropped event's start date</description>
                     <attributeTypes>
                         <attributeType name="DateTime"/>
                     </attributeTypes>
                 </property>
                 <property key="dropEndAttr" type="attribute" required="true" >
-                    <caption>Event Start Updated</caption>
+                    <caption>Dropped Event End Time</caption>
                     <description>Populated with the dropped event's end date</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
+                <property key="onEventResize" type="action">
+                    <caption>On Resize Event</caption>
+                    <description>Microflow to call when event is resized</description>
+                </property>
+                <property key="resizeStartAttr" type="attribute" required="true">
+                    <caption>Resized Event Start Time</caption>
+                    <description>Populated with the resized event's start date</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
+                <property key="resizeEndAttr" type="attribute" required="true" >
+                    <caption>Resized Event End Time</caption>
+                    <description>Populated with the resized event's end date</description>
                     <attributeTypes>
                         <attributeType name="DateTime"/>
                     </attributeTypes>
