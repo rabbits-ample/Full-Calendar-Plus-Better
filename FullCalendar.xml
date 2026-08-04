@@ -52,7 +52,7 @@
                 </property>
                 <property key="textColorAttribute" type="attribute" required="false" dataSource="eventsDataSource">
                     <caption>Text Color</caption>
-                    <description>Attribute of the events datasource entity: event color (e.g. "red", "#FFF000", "rgb(250,10,20)")</description>
+                    <description>Attribute of the events datasource entity: event text color (e.g. "red", "#FFF000", "rgb(250,10,20)")</description>
                     <attributeTypes>
                         <attributeType name="String"/>
                     </attributeTypes>
@@ -64,6 +64,11 @@
                         <enumerationValue key="auto">Simple</enumerationValue>
                         <enumerationValue key="block">Block</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="editableAttribute" type="expression" required="true" dataSource="eventsDataSource">
+                    <caption>Event Editable</caption>
+                    <description>Attribute of the events datasource entity: event editability (draggable,resizable)</description>
+                    <returnType type="Boolean"/>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Calendar View">
@@ -165,11 +170,64 @@
                     <caption>On Date Selected</caption>
                     <description>Microflow to execute when date(s) are selected. A helper entity with start and end dates will be passed to the microflow.</description>
                 </property>
+                <property key="selectStartAttr" type="attribute" required="false">
+                    <caption>Selected start attribute</caption>
+                    <description>Populated with the selected range's start before the microflow runs.</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
+                <property key="selectEndAttr" type="attribute" required="false">
+                    <caption>Selected end attribute</caption>
+                    <description>Populated with the selected range's end before the microflow runs.</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
+                <property key="onEventDrop" type="action">
+                    <caption>On Drop Event</caption>
+                    <description>Microflow to call when event is dropped</description>
+                </property>
+                <property key="dropStartAttr" type="attribute" required="true">
+                    <caption>Dropped Event Start Time</caption>
+                    <description>Populated with the dropped event's start date</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
+                <property key="dropEndAttr" type="attribute" required="true" >
+                    <caption>Dropped Event End Time</caption>
+                    <description>Populated with the dropped event's end date</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
+                <property key="onEventResize" type="action">
+                    <caption>On Resize Event</caption>
+                    <description>Microflow to call when event is resized</description>
+                </property>
+                <property key="resizeStartAttr" type="attribute" required="true">
+                    <caption>Resized Event Start Time</caption>
+                    <description>Populated with the resized event's start date</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
+                <property key="resizeEndAttr" type="attribute" required="true" >
+                    <caption>Resized Event End Time</caption>
+                    <description>Populated with the resized event's end date</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime"/>
+                    </attributeTypes>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Event Options">
-                <property key="allowDateSelection" type="boolean" defaultValue="true">
+                <property key="allowDateSelection" type="attribute">
                     <caption>Allow Date selection</caption>
                     <description>Allow user to select date(s) on the calendar</description>
+                    <attributeTypes>
+                        <attributeType name="Boolean"/>
+                    </attributeTypes>
                 </property>
             </propertyGroup>
         </propertyGroup>

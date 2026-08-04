@@ -18521,7 +18521,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
     }
 
     function FullCalendar(props) {
-        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection = true } = props;
+        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute,editableAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect,selectStartAttr, selectEndAttr,onEventDrop,onEventResize, dropStartAttr, dropEndAttr,resizeStartAttr,resizeEndAttr, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection} = props;
         // Extract values from EditableValue attributes
         const languageValue = React.useMemo(() => {
             if (!language || language.status !== "available" /* ValueStatus.Available */) {
@@ -18606,6 +18606,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
                 const allDayValue = getAttributeValue(allDayAttribute);
                 const colorValue = getAttributeValue(colorAttribute);
                 const textColorValue = getAttributeValue(textColorAttribute)
+                const editableValue = getAttributeValue(editableAttribute)
                 return {
                     id: item.id || item.guid || `event-${Math.random()}`,
                     title: titleValue || "Event",
@@ -18616,6 +18617,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
                     borderColor: colorValue,
                     textColor: textColorValue,
                     display: eventDisplayStyle,
+                    editable:editableValue,
                     extendedProps: {
                         mendixObject: item,
                         mendixId: item.id,
@@ -18631,6 +18633,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
             allDayAttribute,
             colorAttribute,
             textColorAttribute,
+            editableAttribute,
             eventDisplayStyle
         ]);
         // Build toolbar config
@@ -18713,13 +18716,58 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
             }, 0);
         }, [onEventClick, selectedEvent]);
         // Handle date selection - passes selected date range
-        const handleDateSelect = React.useCallback((_selectInfo) => {
+        const handleDateSelect = React.useCallback((selectInfo) => {
+            if (selectStartAttr?.status === "available" && !selectStartAttr.readOnly) {
+                selectStartAttr.setValue(selectInfo.start);
+            }
+            if (selectEndAttr?.status === "available" && !selectEndAttr.readOnly) {
+                selectEndAttr.setValue(selectInfo.end);
+            }
             if (onDateSelect && onDateSelect.canExecute) {
-                // The microflow should receive a helper entity with start and end dates
-                // Mendix will handle the context passing automatically
                 onDateSelect.execute();
             }
-        }, [onDateSelect]);
+        }, [selectStartAttr, selectEndAttr, onDateSelect]);
+
+        const handleEventDrop = React.useCallback((dropInfo) => {
+            const mendixObject = dropInfo.event.extendedProps?.mendixObject;
+            if (!mendixObject) return;
+            
+            if (mendixObject && selectedEvent && typeof selectedEvent.setSelection === "function") {
+                selectedEvent.setSelection(mendixObject);
+            }
+            
+            if (dropStartAttr?.status === "available" && !dropStartAttr.readOnly) {
+                dropStartAttr.setValue(dropInfo.event.start);
+            }
+            if (dropEndAttr?.status === "available" && !dropEndAttr.readOnly) {
+                dropEndAttr.setValue(dropInfo.event.end);
+            }
+            // Run action on next tick so selection is committed before microflow
+                setTimeout(() => {
+                    onEventDrop.execute();
+                }, 0);
+            
+        }, [dropStartAttr, dropEndAttr, onEventDrop, selectedEvent]);
+        const handleEventResize = React.useCallback((resizeInfo) => {
+            const mendixObject = resizeInfo.event.extendedProps?.mendixObject;
+            if (!mendixObject) return;
+
+            if (mendixObject && selectedEvent && typeof selectedEvent.setSelection === "function") {
+                selectedEvent.setSelection(mendixObject);
+            }
+
+            if (resizeStartAttr?.status === "available" && !resizeStartAttr.readOnly) {
+                resizeStartAttr.setValue(resizeInfo.event.start);
+            }
+            if (resizeEndAttr?.status === "available" && !resizeEndAttr.readOnly) {
+                resizeEndAttr.setValue(resizeInfo.event.end);
+            }
+            // Run action on next tick so selection is committed before microflow
+            setTimeout(() => {
+                onEventResize.execute();
+            }, 0);
+
+        }, [resizeStartAttr, resizeEndAttr, onEventResize, selectedEvent]);
         // Build dimension styles
         const dimensionStyle = React.useMemo(() => {
             const dims = { ...style };
@@ -18764,8 +18812,9 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
             return "auto";
         }, [heightMode, customHeight]);
         return (React.createElement("div", { className: `widget-fullcalendar-container ${className || ""}`, style: dimensionStyle, tabIndex: props.tabIndex },
-            React.createElement(FullCalendarWrapper, { events: mappedEvents, language: languageValue, initialView: computedInitialView, initialDate: undefined, validRange: undefined, headerToolbar: headerToolbar, buttonText: buttonText, firstDay: firstDay, eventDisplay: eventDisplayStyle, selectable: allowDateSelection, editable: false, height: calendarHeight, onEventClick: handleEventClick, onSelect: handleDateSelect, onEventDrop: undefined, onEventResize: undefined })));
+            React.createElement(FullCalendarWrapper, { events: mappedEvents, language: languageValue, initialView: computedInitialView, initialDate: undefined, validRange: undefined, headerToolbar: headerToolbar, buttonText: buttonText, firstDay: firstDay, eventDisplay: eventDisplayStyle, selectable: allowDateSelection.value, editable: true, height: calendarHeight, onEventClick: handleEventClick, onSelect: handleDateSelect, onEventDrop: handleEventDrop, onEventResize: handleEventResize})));
     }
+    // change editable to true to allow for drag and drops. Unfortunately, these drag and drop probably have a function to pass on the data, but we can't see it in this compiled version.
 
     exports.FullCalendar = FullCalendar;
 
