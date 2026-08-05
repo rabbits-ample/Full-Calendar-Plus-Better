@@ -166,60 +166,74 @@
                     <caption>On Select Event</caption>
                     <description>Microflow or Show a page when an event is clicked. Use the 'Selected event' selection above as the page argument for the object.</description>
                 </property>
-                <property key="onDateSelect" type="action" required="false">
-                    <caption>On Date Selected</caption>
-                    <description>Microflow to execute when date(s) are selected. A helper entity with start and end dates will be passed to the microflow.</description>
-                </property>
-                <property key="selectStartAttr" type="attribute" required="false">
+                <property key="startAttr" type="attribute" required="false">
                     <caption>Selected start attribute</caption>
                     <description>Populated with the selected range's start before the microflow runs.</description>
                     <attributeTypes>
                         <attributeType name="DateTime"/>
                     </attributeTypes>
                 </property>
-                <property key="selectEndAttr" type="attribute" required="false">
+                <property key="endAttr" type="attribute" required="false">
                     <caption>Selected end attribute</caption>
                     <description>Populated with the selected range's end before the microflow runs.</description>
                     <attributeTypes>
                         <attributeType name="DateTime"/>
                     </attributeTypes>
                 </property>
+                <property key="allDayAttr" type="attribute" required="true" >
+                    <caption>Dropped Event All Day Value</caption>
+                    <description>Populated with the dropped event's all day value</description>
+                    <attributeTypes>
+                        <attributeType name="Boolean"/>
+                    </attributeTypes>
+                </property>
+                <property key="onDateSelect" type="action" required="false">
+                    <caption>On Date Selected</caption>
+                    <description>Microflow to execute when date(s) are selected. A helper entity with start and end dates will be passed to the microflow.</description>
+                </property>
                 <property key="onEventDrop" type="action">
                     <caption>On Drop Event</caption>
                     <description>Microflow to call when event is dropped</description>
                 </property>
-                <property key="dropStartAttr" type="attribute" required="true">
+               <!-- <property key="startAttr" type="attribute" required="true">
                     <caption>Dropped Event Start Time</caption>
                     <description>Populated with the dropped event's start date</description>
                     <attributeTypes>
                         <attributeType name="DateTime"/>
                     </attributeTypes>
                 </property>
-                <property key="dropEndAttr" type="attribute" required="true" >
+                <property key="endAttr" type="attribute" required="true" >
                     <caption>Dropped Event End Time</caption>
                     <description>Populated with the dropped event's end date</description>
                     <attributeTypes>
                         <attributeType name="DateTime"/>
                     </attributeTypes>
                 </property>
+                <property key="allDayAttr" type="attribute" required="true" >
+                    <caption>Dropped Event All Day Value</caption>
+                    <description>Populated with the dropped event's all day value</description>
+                    <attributeTypes>
+                        <attributeType name="Boolean"/>
+                    </attributeTypes>
+                </property>-->
                 <property key="onEventResize" type="action">
                     <caption>On Resize Event</caption>
                     <description>Microflow to call when event is resized</description>
                 </property>
-                <property key="resizeStartAttr" type="attribute" required="true">
+                <!--<property key="startAttr" type="attribute" required="true">
                     <caption>Resized Event Start Time</caption>
                     <description>Populated with the resized event's start date</description>
                     <attributeTypes>
                         <attributeType name="DateTime"/>
                     </attributeTypes>
                 </property>
-                <property key="resizeEndAttr" type="attribute" required="true" >
+                <property key="endAttr" type="attribute" required="true" >
                     <caption>Resized Event End Time</caption>
                     <description>Populated with the resized event's end date</description>
                     <attributeTypes>
                         <attributeType name="DateTime"/>
                     </attributeTypes>
-                </property>
+                </property>-->
             </propertyGroup>
             <propertyGroup caption="Event Options">
                 <property key="allowDateSelection" type="attribute">

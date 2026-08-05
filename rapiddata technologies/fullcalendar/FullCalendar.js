@@ -18521,7 +18521,7 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
     }
 
     function FullCalendar(props) {
-        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute,editableAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect,selectStartAttr, selectEndAttr,onEventDrop,onEventResize, dropStartAttr, dropEndAttr,resizeStartAttr,resizeEndAttr, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection} = props;
+        const { eventsDataSource, titleAttribute, startDateAttribute, endDateAttribute, allDayAttribute, colorAttribute, textColorAttribute,editableAttribute, eventDisplayStyle = "block", language, initialView = "dayGridMonth", weekStartDay, toolbarMode = "standard", customToolbar, selectedEvent, onEventClick, onDateSelect,onEventDrop,onEventResize,startAttr,endAttr, allDayAttr, widthMode = "auto", customWidth, heightMode = "auto", customHeight, aspectRatio, style, class: className, allowDateSelection} = props;
         // Extract values from EditableValue attributes
         const languageValue = React.useMemo(() => {
             if (!language || language.status !== "available" /* ValueStatus.Available */) {
@@ -18717,16 +18717,19 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
         }, [onEventClick, selectedEvent]);
         // Handle date selection - passes selected date range
         const handleDateSelect = React.useCallback((selectInfo) => {
-            if (selectStartAttr?.status === "available" && !selectStartAttr.readOnly) {
-                selectStartAttr.setValue(selectInfo.start);
+            if (startAttr?.status === "available" && !startAttr.readOnly) {
+                startAttr.setValue(selectInfo.start);
             }
-            if (selectEndAttr?.status === "available" && !selectEndAttr.readOnly) {
-                selectEndAttr.setValue(selectInfo.end);
+            if (endAttr?.status === "available" && !endAttr.readOnly) {
+                endAttr.setValue(selectInfo.end);
+            }
+            if (allDayAttr?.status === "available" && !allDayAttr.readOnly) {
+                allDayAttr.setValue(selectInfo.allDay);
             }
             if (onDateSelect && onDateSelect.canExecute) {
                 onDateSelect.execute();
             }
-        }, [selectStartAttr, selectEndAttr, onDateSelect]);
+        }, [startAttr, endAttr,allDayAttr, onDateSelect]);
 
         const handleEventDrop = React.useCallback((dropInfo) => {
             const mendixObject = dropInfo.event.extendedProps?.mendixObject;
@@ -18735,19 +18738,31 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
             if (mendixObject && selectedEvent && typeof selectedEvent.setSelection === "function") {
                 selectedEvent.setSelection(mendixObject);
             }
-            
-            if (dropStartAttr?.status === "available" && !dropStartAttr.readOnly) {
-                dropStartAttr.setValue(dropInfo.event.start);
+            if(dropInfo.event.start != null ) {
+                if (startAttr?.status === "available" && !startAttr.readOnly) {
+                    startAttr.setValue(dropInfo.event.start);
+                }
             }
-            if (dropEndAttr?.status === "available" && !dropEndAttr.readOnly) {
-                dropEndAttr.setValue(dropInfo.event.end);
+            if(dropInfo.event.end != null) {
+                if (endAttr?.status === "available" && !endAttr.readOnly) {
+                    endAttr.setValue(dropInfo.event.end);
+                }
+            }else{
+                if (endAttr?.status === "available" && !endAttr.readOnly) {
+                    endAttr.setValue(dropInfo.event.start);
+                }
+            }
+            
+          
+            if (allDayAttr?.status === "available" && !allDayAttr.readOnly) {
+                allDayAttr.setValue(dropInfo.event.allDay);
             }
             // Run action on next tick so selection is committed before microflow
                 setTimeout(() => {
                     onEventDrop.execute();
                 }, 0);
             
-        }, [dropStartAttr, dropEndAttr, onEventDrop, selectedEvent]);
+        }, [startAttr, endAttr,allDayAttr, onEventDrop, selectedEvent]);
         const handleEventResize = React.useCallback((resizeInfo) => {
             const mendixObject = resizeInfo.event.extendedProps?.mendixObject;
             if (!mendixObject) return;
@@ -18756,18 +18771,21 @@ define(['exports', 'react', 'react-dom'], (function (exports, React, reactDom) {
                 selectedEvent.setSelection(mendixObject);
             }
 
-            if (resizeStartAttr?.status === "available" && !resizeStartAttr.readOnly) {
-                resizeStartAttr.setValue(resizeInfo.event.start);
+            if (startAttr?.status === "available" && !startAttr.readOnly) {
+                startAttr.setValue(resizeInfo.event.start);
             }
-            if (resizeEndAttr?.status === "available" && !resizeEndAttr.readOnly) {
-                resizeEndAttr.setValue(resizeInfo.event.end);
+            if (endAttr?.status === "available" && !endAttr.readOnly) {
+                endAttr.setValue(resizeInfo.event.end);
+            }
+            if (allDayAttr?.status === "available" && !allDayAttr.readOnly) {
+                allDayAttr.setValue(resizeInfo.event.allDay);
             }
             // Run action on next tick so selection is committed before microflow
             setTimeout(() => {
                 onEventResize.execute();
             }, 0);
 
-        }, [resizeStartAttr, resizeEndAttr, onEventResize, selectedEvent]);
+        }, [startAttr, endAttr,allDayAttr, onEventResize, selectedEvent]);
         // Build dimension styles
         const dimensionStyle = React.useMemo(() => {
             const dims = { ...style };
